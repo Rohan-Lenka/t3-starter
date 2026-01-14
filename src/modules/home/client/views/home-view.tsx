@@ -1,0 +1,28 @@
+'use client';
+
+import { Button } from "@/src/components/ui/button";
+import { authClient } from "@/src/lib/auth-client";
+import { useRouter } from "next/navigation";
+
+const HomeView = () => {
+    const router = useRouter();
+    const { data: session } = authClient.useSession();
+
+    return <div className="flex flex-col p-4 gap-y-4">
+        welcome to home
+        <p>{session?.user.name}</p>
+        <Button className="ml-4" onClick={() => {
+            authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        router.push('/sign-in');
+                    }
+                }
+            })
+        }}>
+            sign out
+        </Button>
+    </div>
+}
+
+export default HomeView;
