@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { z } from "zod";
+import Password from "../components/password";
 
 const formSchema = z
   .object({
@@ -31,6 +32,8 @@ const formSchema = z
 export const SignUpView = () => {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -138,7 +141,11 @@ export const SignUpView = () => {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="********" {...field} />
+                          <Password
+                            onClick={() => setShowPassword(!showPassword)}
+                            showPassword={showPassword}
+                            field={field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -154,7 +161,11 @@ export const SignUpView = () => {
                       <FormItem>
                         <FormLabel>Confirm Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="********" {...field} />
+                          <Password
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            showPassword={showConfirmPassword}
+                            field={field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

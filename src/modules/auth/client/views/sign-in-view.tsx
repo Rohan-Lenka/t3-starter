@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { z } from "zod";
+import Password from "../components/password";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -24,6 +25,7 @@ const formSchema = z.object({
 export const SignInView = () => {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -85,7 +87,9 @@ export const SignInView = () => {
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
                   <h1 className="text-2xl font-bold">Welcome back</h1>
-                  <p className="text-muted-foreground text-balance">Login to your account</p>
+                  <p className="text-muted-foreground text-balance">
+                    Login to your account
+                  </p>
                 </div>
 
                 <div className="grid gap-3">
@@ -96,7 +100,11 @@ export const SignInView = () => {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="johndoe@example.com" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="johndoe@example.com"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -112,7 +120,11 @@ export const SignInView = () => {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="********" {...field} />
+                          <Password
+                            onClick={() => setShowPassword(!showPassword)}
+                            showPassword={showPassword}
+                            field={field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -161,7 +173,10 @@ export const SignInView = () => {
 
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <Link href="/sign-up" className="underline underline-offset-4 ">
+                  <Link
+                    href="/sign-up"
+                    className="underline underline-offset-4 "
+                  >
                     Sign Up
                   </Link>
                 </div>
@@ -182,14 +197,16 @@ export const SignInView = () => {
                 maxHeight: "92px",
               }}
             />
-            <p className="text-2xl font-semibold text-white">{process.env.NEXT_PUBLIC_WEBSITE_NAME}</p>
+            <p className="text-2xl font-semibold text-white">
+              {process.env.NEXT_PUBLIC_WEBSITE_NAME}
+            </p>
           </div>
         </CardContent>
       </Card>
 
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and{" "}
-        <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
   );
